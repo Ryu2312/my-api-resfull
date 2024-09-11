@@ -9,4 +9,4 @@ const pool = new Pool({
   database: "timetracker", // Nombre de la base de datos
 });
 
-export const query = (text: string, params?: any[]) => pool.query(text, params);
+export const query = (text: string, params?: string[]) => pool.query(text, params);

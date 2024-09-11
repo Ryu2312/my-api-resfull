@@ -1,11 +1,11 @@
 import { IncomingMessage, ServerResponse } from "node:http";
 import {
-  postUsers,
-  getUsers,
-  updateUsers,
   deleteUsers,
-  sendJsonResponse,
-} from "../utils/utils";
+  getUsers,
+  postUsers,
+  updateUsers,
+} from "../controllers/controllerUsers";
+import { sendJsonResponse } from "../utils/utils";
 
 export const routes = (request: IncomingMessage, response: ServerResponse) => {
   const { method, url } = request;
@@ -16,7 +16,7 @@ export const routes = (request: IncomingMessage, response: ServerResponse) => {
     if (method === "GET") getUsers(response);
     if (method === "POST") postUsers(request, response);
   } else if (url?.match(/\/users\/\d+/)) {
-    const id = parseInt(url.split("/")[2]);
+    const id = url.split("/")[2];
     if (method === "GET") getUsers(response, id);
     if (method === "PATCH") updateUsers(request, response, id);
     if (method === "PUT") updateUsers(request, response, id);

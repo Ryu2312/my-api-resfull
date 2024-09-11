@@ -26,7 +26,7 @@ export function postUsers(request: IncomingMessage, response: ServerResponse) {
   });
 }
 
-export async function getUsers(response: ServerResponse, id?: number) {
+export async function getUsers(response: ServerResponse, id?: string) {
   try {
     const sentencia = id
       ? "SELECT * FROM users WHERE id = $1"
@@ -52,7 +52,7 @@ export async function getUsers(response: ServerResponse, id?: number) {
 export async function updateUsers(
   request: IncomingMessage,
   response: ServerResponse,
-  id: number
+  id: string
 ) {
   let body = "";
 
@@ -90,7 +90,7 @@ export async function updateUsers(
   });
 }
 
-export async function deleteUsers(response: ServerResponse, id: number) {
+export async function deleteUsers(response: ServerResponse, id: string) {
   try {
     const dataUser = await query("SELECT * FROM users WHERE id = $1", [id]);
 
