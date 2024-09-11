@@ -1,16 +1,6 @@
-import { ServerResponse, IncomingMessage } from "node:http";
-import { query } from "./models/db";
-
-export const sendJsonResponse = (
-  res: ServerResponse,
-  statusCode: number,
-  data: object | string
-) => {
-  res.writeHead(statusCode, {
-    "Content-Type": "application/json; charset=utf-8",
-  });
-  res.end(JSON.stringify(data));
-};
+import { IncomingMessage, ServerResponse } from "http";
+import { sendJsonResponse } from "../utils/utils";
+import { query } from "../models/db";
 
 export function postUsers(request: IncomingMessage, response: ServerResponse) {
   let body = "";
@@ -39,7 +29,7 @@ export function postUsers(request: IncomingMessage, response: ServerResponse) {
 export async function getUsers(response: ServerResponse, id?: number) {
   try {
     const sentencia = id
-      ? `SELECT * FROM users WHERE id = $1`
+      ? "SELECT * FROM users WHERE id = $1"
       : "SELECT * FROM users ORDER BY id";
     const dataUser = await query(sentencia, id ? [id] : []);
 
@@ -72,7 +62,7 @@ export async function updateUsers(
 
   request.on("end", async () => {
     try {
-      const dataUser = await query(`SELECT * FROM users WHERE id = $1`, [id]);
+      const dataUser = await query("SELECT * FROM users WHERE id = $1", [id]);
 
       if (dataUser.rows.length > 0) {
         const userUpdate = { ...dataUser.rows[0], ...JSON.parse(body) };
